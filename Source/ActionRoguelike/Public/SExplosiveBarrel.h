@@ -27,9 +27,7 @@ protected:
 	URadialForceComponent* RadialForceComp;
 	
 	UFUNCTION()
-	void OnHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-	void Explode();
+	void OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

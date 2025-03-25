@@ -24,17 +24,23 @@ ASExplosiveBarrel::ASExplosiveBarrel()
 
 }
 
-void ASExplosiveBarrel::OnHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp,
+void ASExplosiveBarrel::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp,
 	FVector NormalImpulse, const FHitResult& Hit)
 {
-	Explode();
-}
-
-void ASExplosiveBarrel::Explode()
-{
 	RadialForceComp->FireImpulse();
+
+	
+	// LOGGING NOTES
+	 
+	UE_LOG(LogTemp, Log, TEXT("EXPLOSION!!!"));
+	UE_LOG(LogTemp, Warning, TEXT("OtherActor: %s, at game time: %f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds); // * does a conversion
+	
+	FString CombinedString = FString::Printf(TEXT("Hit at location: %s"), *Hit.ImpactPoint.ToString());
+	DrawDebugString(GetWorld(), Hit.ImpactPoint, CombinedString, NULL, FColor::White, 2.0f, true);
+	
 }
 
+	
 // Called when the game starts or when spawned
 void ASExplosiveBarrel::BeginPlay()
 {
