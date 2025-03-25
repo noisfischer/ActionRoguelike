@@ -13,16 +13,16 @@ ASExplosiveBarrel::ASExplosiveBarrel()
 	BarrelMesh = CreateDefaultSubobject<UStaticMeshComponent>("BarrelMesh");
 	BarrelMesh->SetCollisionObjectType(ECC_PhysicsBody);
 	BarrelMesh->SetSimulatePhysics(true);
-	BarrelMesh->OnComponentHit.AddDynamic(this, &ASExplosiveBarrel::OnHit);
 	RootComponent = BarrelMesh;
+	BarrelMesh->OnComponentHit.AddDynamic(this, &ASExplosiveBarrel::OnHit);
 
 	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>("RadialForceComp");
 	RadialForceComp->bImpulseVelChange = true;
 	RadialForceComp->ImpulseStrength = 500.0f;
+	RadialForceComp->SetAutoActivate(false);
 	RadialForceComp->SetupAttachment(BarrelMesh);
 
 }
-
 
 void ASExplosiveBarrel::OnHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp,
 	FVector NormalImpulse, const FHitResult& Hit)
