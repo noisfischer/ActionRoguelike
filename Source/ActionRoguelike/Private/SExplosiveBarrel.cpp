@@ -12,6 +12,7 @@ ASExplosiveBarrel::ASExplosiveBarrel()
 
 	BarrelMesh = CreateDefaultSubobject<UStaticMeshComponent>("BarrelMesh");
 	BarrelMesh->SetCollisionObjectType(ECC_PhysicsBody);
+	BarrelMesh->SetSimulatePhysics(true);
 	BarrelMesh->OnComponentHit.AddDynamic(this, &ASExplosiveBarrel::OnHit);
 	RootComponent = BarrelMesh;
 
