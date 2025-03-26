@@ -63,7 +63,31 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	FTransform SpawnTM = FTransform(GetControlRotation(),GetMesh()->GetSocketLocation("Muzzle_01"));
+	FHitResult Hit;
+	FVector StartLocation = CameraComp->GetComponentLocation();
+	FVector EndLocation = StartLocation + CameraComp->GetComponentRotation().Vector() * 10000;
+	FCollisionObjectQueryParams ObjectQueryParams;
+	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
+	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
+	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Pawn);
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this);
+	
+	bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(Hit, StartLocation, EndLocation, ObjectQueryParams, CollisionParams);
+	
+	if (bBlockingHit)
+	{
+		EndLocation = Hit.ImpactPoint;
+	}
+	else
+	{
+		EndLocation = Hit.TraceEnd;
+	}
+
+	FVector SpawnLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(SpawnLocation, EndLocation);
+	FTransform SpawnTM = FTransform(SpawnRotation,SpawnLocation);
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
