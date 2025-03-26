@@ -54,14 +54,7 @@ void ASCharacter::MoveRight(float Value)
 	AddMovementInput(UKismetMathLibrary::GetRightVector(ControlRot), Value);
 }
 
-void ASCharacter::PrimaryAttack()
-{
-	PlayAnimMontage(AttackAnim);
-	
-	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.2f);
-}
-
-void ASCharacter::PrimaryAttack_TimeElapsed()
+void ASCharacter::SpawnProjectile(TSubclassOf<AActor> Projectile)
 {
 	FHitResult Hit;
 	FVector StartLocation = CameraComp->GetComponentLocation();
@@ -93,7 +86,31 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Instigator = this;
 	
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+	GetWorld()->SpawnActor<AActor>(Projectile, SpawnTM, SpawnParams);
+}
+
+void ASCharacter::PrimaryAttack()
+{
+	PlayAnimMontage(AttackAnim);
+	
+	GetWorldTimerManager().SetTimer(TimerHandle_Attack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.2f);
+}
+
+void ASCharacter::PrimaryAttack_TimeElapsed()
+{
+	SpawnProjectile(PrimaryProjectileClass);
+}
+
+void ASCharacter::SecondaryAttack()
+{
+	PlayAnimMontage(AttackAnim);
+	
+	GetWorldTimerManager().SetTimer(TimerHandle_Attack, this, &ASCharacter::SecondaryAttack_TimeElapsed, 0.2f);
+}
+
+void ASCharacter::SecondaryAttack_TimeElapsed()
+{
+	SpawnProjectile(SecondaryProjectileClass);
 }
 
 void ASCharacter::PrimaryInteract()
@@ -139,6 +156,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &ASCharacter::SecondaryAttack);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
 }
 
