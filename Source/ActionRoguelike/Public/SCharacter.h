@@ -22,6 +22,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Attack")
 	TSubclassOf<AActor> SecondaryProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category="Attack")
+	TSubclassOf<AActor> SpellProjectileClass;
 	
 	UPROPERTY(EditAnywhere, Category="Attack")
 	UAnimMontage* AttackAnim;
@@ -53,11 +56,13 @@ protected:
 	
 	void PrimaryAttack();
 	void SecondaryAttack();
+	void CastSpell();
 
 	void PrimaryInteract();
 
 	void PrimaryAttack_TimeElapsed();
 	void SecondaryAttack_TimeElapsed();
+	void CastSpell_TimeElapsed();
 	
 public:	
 	// Called every frame

@@ -33,6 +33,8 @@ protected:
 	
 	void BlackholeDuration_TimeElapsed();
 
+	virtual void OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
+
 	virtual void BeginPlay() override;
 
 public:	

@@ -16,10 +16,15 @@ ASMagicProjectile::ASMagicProjectile()
 
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionProfileName("Projectile");
+	SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::OnHit);
 	RootComponent = SphereComp;
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(SphereComp);
+
+	HitEffect = CreateDefaultSubobject<UParticleSystemComponent>("HitEffect");
+	HitEffect->SetAutoActivate(false);
+	HitEffect->SetupAttachment(SphereComp);
 
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComp");
 	MovementComp->InitialSpeed = 1000.0f;
@@ -28,11 +33,12 @@ ASMagicProjectile::ASMagicProjectile()
 	
 }
 
+
 // Called when the game starts or when spawned
 void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
 }
 
 // Called every frame
@@ -42,3 +48,18 @@ void ASMagicProjectile::Tick(float DeltaTime)
 
 }
 
+void ASMagicProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor,
+	class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor != GetInstigator())
+	{
+		EffectComp->SetVisibility(false);
+		HitEffect->Activate(true);
+		GetWorldTimerManager().SetTimer(DestructionTimer, this, &ASMagicProjectile::DestroyProjectile, DestructionTime);
+	}
+}
+
+void ASMagicProjectile::DestroyProjectile()
+{
+	Destroy();
+}

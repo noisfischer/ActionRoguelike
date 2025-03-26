@@ -23,6 +23,8 @@ ASBlackholeProjectile::ASBlackholeProjectile() : ASMagicProjectile()
 
 	MovementComp->MaxSpeed = 1000.0f;
 	MovementComp->ProjectileGravityScale = 0.0f;
+
+	DestructionTime = 5.0f;
 }
 
 
@@ -48,6 +50,12 @@ void ASBlackholeProjectile::OnOverlap(class UPrimitiveComponent* MyComp, AActor*
 void ASBlackholeProjectile::BlackholeDuration_TimeElapsed()
 {
 	Destroy();
+}
+
+void ASBlackholeProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor,
+	class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	
 }
 
 void ASBlackholeProjectile::Tick(float DeltaTime)

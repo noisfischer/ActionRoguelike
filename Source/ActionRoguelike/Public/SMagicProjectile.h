@@ -9,6 +9,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class USoundCue;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASMagicProjectile : public AActor
@@ -21,6 +22,11 @@ public:
 
 protected:
 
+	FTimerHandle DestructionTimer;
+
+	UPROPERTY(EditAnywhere)
+	float DestructionTime = 1.0f;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USphereComponent* SphereComp;
 
@@ -29,6 +35,17 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* EffectComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UParticleSystemComponent* HitEffect;
+
+	UPROPERTY(VisibleAnywhere)
+	USoundCue* SoundEffect;
+	
+	UFUNCTION()
+	virtual void OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	void DestroyProjectile();
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

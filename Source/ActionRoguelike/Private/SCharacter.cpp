@@ -108,9 +108,22 @@ void ASCharacter::SecondaryAttack()
 	GetWorldTimerManager().SetTimer(TimerHandle_Attack, this, &ASCharacter::SecondaryAttack_TimeElapsed, 0.2f);
 }
 
+
 void ASCharacter::SecondaryAttack_TimeElapsed()
 {
 	SpawnProjectile(SecondaryProjectileClass);
+}
+
+void ASCharacter::CastSpell()
+{
+	PlayAnimMontage(AttackAnim);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_Attack, this, &ASCharacter::CastSpell_TimeElapsed, 0.2f);
+}
+
+void ASCharacter::CastSpell_TimeElapsed()
+{
+	SpawnProjectile(SpellProjectileClass);
 }
 
 void ASCharacter::PrimaryInteract()
@@ -157,6 +170,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &ASCharacter::SecondaryAttack);
+	PlayerInputComponent->BindAction("CastSpell", IE_Pressed, this, &ASCharacter::CastSpell);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
 }
 
