@@ -3,6 +3,7 @@
 
 #include "SCharacter.h"
 #include "DrawDebugHelpers.h"
+#include "SAttributeComponent.h"
 #include "SInteractionComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -23,6 +24,8 @@ ASCharacter::ASCharacter()
 	CameraComp->SetupAttachment(SpringArmComp);
 
 	InteractionComp = CreateDefaultSubobject<USInteractionComponent>("InteractionComp");
+
+	AttributeComp = CreateDefaultSubobject<USAttributeComponent>("AttributeComp");
 	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
@@ -56,54 +59,61 @@ void ASCharacter::MoveRight(float Value)
 
 void ASCharacter::SpawnProjectile(TSubclassOf<AActor> Projectile)
 {
-	FHitResult Hit;
-	FVector StartLocation = CameraComp->GetComponentLocation();
-	FVector EndLocation = StartLocation + CameraComp->GetComponentRotation().Vector() * 10000;
-	FCollisionObjectQueryParams ObjectQueryParams;
-	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
-	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
-	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
-	ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Pawn);
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(this);
-	
-	bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(Hit, StartLocation, EndLocation, ObjectQueryParams, CollisionParams);
-	
-	if (bBlockingHit)
+	if (ensure(Projectile))	// ensure will breakpoint if Projectile is null
 	{
-		EndLocation = Hit.ImpactPoint;
-	}
-	else
-	{
-		EndLocation = Hit.TraceEnd;
-	}
-
-	FVector SpawnLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(SpawnLocation, EndLocation);
-	FTransform SpawnTM = FTransform(SpawnRotation,SpawnLocation);
-
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParams.Instigator = this;
+		FHitResult Hit;
+		FVector StartLocation = CameraComp->GetComponentLocation();
+		FVector EndLocation = StartLocation + CameraComp->GetComponentRotation().Vector() * 10000;
+		FCollisionObjectQueryParams ObjectQueryParams;
+		ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+		ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
+		ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
+		ObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Pawn);
+		FCollisionQueryParams CollisionParams;
+		CollisionParams.AddIgnoredActor(this);
 	
-	GetWorld()->SpawnActor<AActor>(Projectile, SpawnTM, SpawnParams);
+		bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(Hit, StartLocation, EndLocation, ObjectQueryParams, CollisionParams);
+	
+		if (bBlockingHit)
+		{
+			EndLocation = Hit.ImpactPoint;
+		}
+		else
+		{
+			EndLocation = Hit.TraceEnd;
+		}
+
+		FVector SpawnLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+		FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(SpawnLocation, EndLocation);
+		FTransform SpawnTM = FTransform(SpawnRotation,SpawnLocation);
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.Instigator = this;
+	
+		GetWorld()->SpawnActor<AActor>(Projectile, SpawnTM, SpawnParams);
+	}
+	
 }
 
 void ASCharacter::PrimaryAttack()
 {
-	PlayAnimMontage(AttackAnim);
+	if (ensure(AttackAnim))
+		PlayAnimMontage(AttackAnim);
 	
 	GetWorldTimerManager().SetTimer(TimerHandle_Attack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.2f);
 }
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	SpawnProjectile(PrimaryProjectileClass);
+	if (ensure(PrimaryProjectileClass))
+		SpawnProjectile(PrimaryProjectileClass);
 }
 
 void ASCharacter::SecondaryAttack()
 {
-	PlayAnimMontage(AttackAnim);
+	if (ensure(AttackAnim))
+		PlayAnimMontage(AttackAnim);
 	
 	GetWorldTimerManager().SetTimer(TimerHandle_Attack, this, &ASCharacter::SecondaryAttack_TimeElapsed, 0.2f);
 }
@@ -111,19 +121,22 @@ void ASCharacter::SecondaryAttack()
 
 void ASCharacter::SecondaryAttack_TimeElapsed()
 {
-	SpawnProjectile(SecondaryProjectileClass);
+	if (ensure(SecondaryProjectileClass))
+		SpawnProjectile(SecondaryProjectileClass);
 }
 
 void ASCharacter::CastSpell()
 {
-	PlayAnimMontage(AttackAnim);
+	if (ensure(AttackAnim))
+		PlayAnimMontage(AttackAnim);
 
 	GetWorldTimerManager().SetTimer(TimerHandle_Attack, this, &ASCharacter::CastSpell_TimeElapsed, 0.2f);
 }
 
 void ASCharacter::CastSpell_TimeElapsed()
 {
-	SpawnProjectile(SpellProjectileClass);
+	if (ensure(SpellProjectileClass))
+		SpawnProjectile(SpellProjectileClass);
 }
 
 void ASCharacter::PrimaryInteract()

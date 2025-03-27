@@ -3,6 +3,7 @@
 
 #include "SMagicProjectile.h"
 
+#include "SAttributeComponent.h"
 #include "Chaos/ChaosPerfTest.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -17,6 +18,7 @@ ASMagicProjectile::ASMagicProjectile()
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionProfileName("Projectile");
 	SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::OnHit);
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASMagicProjectile::OnActorOverlap);
 	RootComponent = SphereComp;
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
@@ -51,11 +53,22 @@ void ASMagicProjectile::Tick(float DeltaTime)
 void ASMagicProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor,
 	class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor != GetInstigator())
+	EffectComp->SetVisibility(false);
+	HitEffect->Activate(true);
+	GetWorldTimerManager().SetTimer(DestructionTimer, this, &ASMagicProjectile::DestroyProjectile, DestructionTime);
+
+}
+
+void ASMagicProjectile::OnActorOverlap(class UPrimitiveComponent* MyComp, AActor* OtherActor,
+	class UPrimitiveComponent* OtherComp, int Body, bool Sweep, const FHitResult& Hit)
+{
+	if (OtherActor)
 	{
-		EffectComp->SetVisibility(false);
-		HitEffect->Activate(true);
-		GetWorldTimerManager().SetTimer(DestructionTimer, this, &ASMagicProjectile::DestroyProjectile, DestructionTime);
+		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		if (AttributeComp)
+		{
+			AttributeComp->ApplyHealthChange(-20.0f);
+		}
 	}
 }
 

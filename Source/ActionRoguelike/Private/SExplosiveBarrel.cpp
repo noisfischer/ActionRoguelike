@@ -2,6 +2,8 @@
 
 
 #include "SExplosiveBarrel.h"
+
+#include "SAttributeComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 
 // Sets default values
@@ -29,6 +31,14 @@ void ASExplosiveBarrel::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherAc
 {
 	RadialForceComp->FireImpulse();
 
+	if (OtherActor)
+	{
+		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		if (AttributeComp)
+		{
+			AttributeComp->ApplyHealthChange(-20.0f);
+		}
+	}
 	
 	// LOGGING NOTES
 	 

@@ -45,6 +45,9 @@ protected:
 	UFUNCTION()
 	virtual void OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	UFUNCTION()
+	virtual void OnActorOverlap(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, int Body, bool Sweep, const FHitResult& Hit);
+	
 	void DestroyProjectile();
 	
 	// Called when the game starts or when spawned
