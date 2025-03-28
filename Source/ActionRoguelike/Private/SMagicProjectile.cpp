@@ -62,7 +62,7 @@ void ASMagicProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherAc
 void ASMagicProjectile::OnActorOverlap(class UPrimitiveComponent* MyComp, AActor* OtherActor,
 	class UPrimitiveComponent* OtherComp, int Body, bool Sweep, const FHitResult& Hit)
 {
-	if (OtherActor)
+	if (OtherActor && OtherActor!= GetInstigator())
 	{
 		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (AttributeComp)
