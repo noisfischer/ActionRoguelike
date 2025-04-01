@@ -18,7 +18,6 @@ ASBaseProjectile::ASBaseProjectile()
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionProfileName("Projectile");
 	SphereComp->OnComponentHit.AddDynamic(this, &ASBaseProjectile::OnHit);
-	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASBaseProjectile::OnActorOverlap);
 	RootComponent = SphereComp;
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
@@ -57,13 +56,6 @@ void ASBaseProjectile::Explode_Implementation()
 void ASBaseProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor,
 	class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	EffectComp->SetVisibility(false);
-	Explode();
-}
-
-void ASBaseProjectile::OnActorOverlap(class UPrimitiveComponent* MyComp, AActor* OtherActor,
-	class UPrimitiveComponent* OtherComp, int Body, bool Sweep, const FHitResult& Hit)
-{
 	if (OtherActor && OtherActor!= GetInstigator())
 	{
 		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
@@ -71,5 +63,8 @@ void ASBaseProjectile::OnActorOverlap(class UPrimitiveComponent* MyComp, AActor*
 		{
 			AttributeComp->ApplyHealthChange(-20.0f);
 		}
+		EffectComp->SetVisibility(false);
+		Explode();
 	}
 }
+

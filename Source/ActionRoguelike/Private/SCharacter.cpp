@@ -32,6 +32,15 @@ ASCharacter::ASCharacter()
 	bUseControllerRotationYaw = false;
 }
 
+void ASCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	AttributeComp->OnHealthChanged.AddDynamic(this, &ASCharacter::OnHealthChanged);
+	
+}
+
+
 // Called when the game starts or when spawned
 void ASCharacter::BeginPlay()
 {
@@ -137,6 +146,16 @@ void ASCharacter::CastSpell_TimeElapsed()
 {
 	if (ensure(SpellProjectileClass))
 		SpawnProjectile(SpellProjectileClass);
+}
+
+void ASCharacter::OnHealthChanged(USAttributeComponent* OwningComp, AActor* InstigatorActor, float NewHealth,
+	float Delta)
+{
+	if (NewHealth <= 0 && Delta < 0.0f)
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		DisableInput(PC);
+	}
 }
 
 void ASCharacter::PrimaryInteract()

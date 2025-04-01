@@ -68,6 +68,11 @@ protected:
 	void PrimaryAttack_TimeElapsed();
 	void SecondaryAttack_TimeElapsed();
 	void CastSpell_TimeElapsed();
+
+	UFUNCTION()
+	void OnHealthChanged( USAttributeComponent* OwningComp, AActor* InstigatorActor, float NewHealth, float Delta);
+
+	virtual void PostInitializeComponents() override;
 	
 public:	
 	// Called every frame
