@@ -58,6 +58,7 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	
+	
 	void PrimaryAttack();
 	void SecondaryAttack();
 	void CastSpell();

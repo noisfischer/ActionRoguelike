@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SMagicProjectile.h"
+#include "SBaseProjectile.h"
 #include "SBlackholeProjectile.generated.h"
 
 class URadialForceComponent;
@@ -11,7 +11,7 @@ class URadialForceComponent;
  * 
  */
 UCLASS()
-class ACTIONROGUELIKE_API ASBlackholeProjectile : public ASMagicProjectile
+class ACTIONROGUELIKE_API ASBlackholeProjectile : public ASBaseProjectile
 {
 	GENERATED_BODY()
 	

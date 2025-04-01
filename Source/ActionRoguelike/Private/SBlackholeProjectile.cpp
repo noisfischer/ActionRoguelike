@@ -7,7 +7,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 
-ASBlackholeProjectile::ASBlackholeProjectile() : ASMagicProjectile()
+ASBlackholeProjectile::ASBlackholeProjectile() : ASBaseProjectile()
 {
 	ForceComp = CreateDefaultSubobject<URadialForceComponent>("ForceComp");
 	ForceComp->Radius = 1000.0f;
@@ -23,8 +23,7 @@ ASBlackholeProjectile::ASBlackholeProjectile() : ASMagicProjectile()
 
 	MovementComp->MaxSpeed = 1000.0f;
 	MovementComp->ProjectileGravityScale = 0.0f;
-
-	DestructionTime = 5.0f;
+	
 }
 
 
