@@ -29,17 +29,28 @@ protected:
 	// BlueprintAssignable - lets us subscribe/bind events (dispatcher)
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
-	float Health;
+	float CurrentHealth;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
+	float MaxHealth;
+	
 public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
 
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; };
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; };
+	
 	UPROPERTY(BlueprintAssignable, Category="Attributes")
 	FOnHealthChanged OnHealthChanged;
 
 	UFUNCTION(BlueprintCallable, Category="Attributes")
 	bool ApplyHealthChange(float Delta);
+
+	
 	
 };

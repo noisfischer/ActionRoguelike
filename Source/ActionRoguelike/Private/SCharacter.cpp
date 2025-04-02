@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
@@ -101,6 +102,8 @@ void ASCharacter::SpawnProjectile(TSubclassOf<AActor> Projectile)
 		SpawnParams.Instigator = this;
 	
 		GetWorld()->SpawnActor<AActor>(Projectile, SpawnTM, SpawnParams);
+
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpellCastVFX, SpawnLocation);
 	}
 	
 }
@@ -151,6 +154,10 @@ void ASCharacter::CastSpell_TimeElapsed()
 void ASCharacter::OnHealthChanged(USAttributeComponent* OwningComp, AActor* InstigatorActor, float NewHealth,
 	float Delta)
 {
+	if (Delta < 0.0f)
+	{
+		GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+	}
 	if (NewHealth <= 0 && Delta < 0.0f)
 	{
 		APlayerController* PC = Cast<APlayerController>(GetController());

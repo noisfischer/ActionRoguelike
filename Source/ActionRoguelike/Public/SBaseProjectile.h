@@ -10,6 +10,8 @@ class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
 class UParticleSystem;
+class UAudioComponent;
+class USoundBase;
 
 UCLASS(ABSTRACT) // 'ABSTRACT' marks this class as incomplete, keeping it out certain dropdown windows like SpawnActor in the editor
 class ACTIONROGUELIKE_API ASBaseProjectile : public AActor
@@ -33,8 +35,16 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
 	UParticleSystem* ImpactVFX;
-	
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
+	UAudioComponent* AudioComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
+	USoundBase* ImpactSound;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
+	TSubclassOf<class UCameraShakeBase> CameraShake;
+	
 	UFUNCTION()
 	virtual void OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 

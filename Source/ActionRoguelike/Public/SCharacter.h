@@ -11,6 +11,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class UAnimMontage;
 class USAttributeComponent;
+class UParticleSystem;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
@@ -30,6 +31,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Attack")
 	UAnimMontage* AttackAnim;
 
+	UPROPERTY(EditAnywhere, Category="Attack")
+	UParticleSystem* SpellCastVFX;
+	
 	void SpawnProjectile(TSubclassOf<AActor> Projectile);
 	
 	FTimerHandle TimerHandle_Attack;

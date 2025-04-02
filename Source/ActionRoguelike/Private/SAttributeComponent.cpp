@@ -6,21 +6,22 @@
 // Sets default values for this component's properties
 USAttributeComponent::USAttributeComponent()
 {
-	Health = 100.0f;
+	MaxHealth = 100.0f;
+	CurrentHealth = MaxHealth;
 
 	// ...
 }
 
 bool USAttributeComponent::IsAlive() const
 {
-	return Health > 0;
+	return CurrentHealth > 0;
 }
 
 bool USAttributeComponent::ApplyHealthChange(float Delta)
 {
-	Health += Delta;
+	CurrentHealth = FMath::Clamp(CurrentHealth + Delta, 0, MaxHealth);
 
-	OnHealthChanged.Broadcast(this, nullptr, Health, Delta);	// for updating UI
+	OnHealthChanged.Broadcast(this, nullptr, CurrentHealth, Delta);	// for updating UI
 
 	return true;
 }

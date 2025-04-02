@@ -4,6 +4,7 @@
 #include "SBaseProjectile.h"
 
 #include "SAttributeComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -23,6 +24,9 @@ ASBaseProjectile::ASBaseProjectile()
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(SphereComp);
 
+	AudioComp = CreateDefaultSubobject<UAudioComponent>("SoundComp");
+	AudioComp->SetupAttachment(SphereComp);
+
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComp");
 	MovementComp->ProjectileGravityScale = 0.0f;
 	MovementComp->InitialSpeed = 8000.0f;
@@ -35,6 +39,7 @@ void ASBaseProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
+	AudioComp->Play();
 }
 
 // Called every frame
@@ -48,7 +53,10 @@ void ASBaseProjectile::Explode_Implementation()
 {
 	if (ensure(IsValid(this)))
 	{
+		UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake, GetActorLocation(), 5000.0f, 10000.0f, 1, false);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactVFX, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ImpactSound, GetActorLocation(), GetActorRotation());
+		AudioComp->Stop();
 		Destroy();
 	}
 }
