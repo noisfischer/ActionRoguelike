@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a15679cb-cb89-4ad1-8a18-18ca22f75236" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ActionRoguelike.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ActionRoguelike.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ActionRoguelike.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/ActionRoguelike.uproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ParagonMinions/Characters/Minions/Down_Minions/Meshes/MinionRanged_AnimBP.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ParagonMinions/Characters/Minions/Down_Minions/Meshes/MinionRanged_AnimBP.uasset" afterDir="false" />
-    </list>
+    <list default="true" id="a15679cb-cb89-4ad1-8a18-18ca22f75236" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,6 +77,7 @@
       <workItem from="1743694860933" duration="14000" />
       <workItem from="1743695078014" duration="1000" />
       <workItem from="1743696556869" duration="2000" />
+      <workItem from="1743702999164" duration="1000" />
     </task>
     <servers />
   </component>
