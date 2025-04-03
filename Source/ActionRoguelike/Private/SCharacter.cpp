@@ -103,7 +103,7 @@ void ASCharacter::SpawnProjectile(TSubclassOf<AActor> Projectile)
 	
 		GetWorld()->SpawnActor<AActor>(Projectile, SpawnTM, SpawnParams);
 
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpellCastVFX, SpawnLocation);
+		UGameplayStatics::SpawnEmitterAttached(SpellCastVFX, GetMesh(), FName("Muzzle_01"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget);
 	}
 	
 }

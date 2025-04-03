@@ -2,9 +2,9 @@
 
 
 #include "AI/SAIController.h"
-
+#include "SAttributeComponent.h"
+#include "AI/SAICharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Kismet/GameplayStatics.h"
 
 void ASAIController::BeginPlay()
 {
@@ -15,10 +15,9 @@ void ASAIController::BeginPlay()
 		RunBehaviorTree(BehaviorTree);
 	}
 
-	/*APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
-	if (PlayerPawn)
+	ASAICharacter* AICharacter = Cast<ASAICharacter>(GetPawn());
+	if (ensure(AICharacter))
 	{
-		GetBlackboardComponent()->SetValueAsVector("MoveToLocation", PlayerPawn->GetActorLocation());
-		GetBlackboardComponent()->SetValueAsObject("TargetActor", PlayerPawn);
-	}*/
+		GetBlackboardComponent()->SetValueAsFloat("CurrentHealth", AICharacter->GetAttributeComponent()->GetMaxHealth());
+	}
 }
