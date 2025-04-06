@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a15679cb-cb89-4ad1-8a18-18ca22f75236" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Source/ActionRoguelike/Private/SCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ActionRoguelike/Private/SCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ActionRoguelike/Maps/TestLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ActionRoguelike/Maps/TestLevel.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ActionRoguelike/Maps/TestLevel/6/MX/CS3NZYFVNCXD393XSUBLXN.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ActionRoguelike/Maps/TestLevel/6/MX/CS3NZYFVNCXD393XSUBLXN.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +83,7 @@
       <workItem from="1743696556869" duration="2000" />
       <workItem from="1743702999164" duration="1000" />
       <workItem from="1743715293324" duration="55000" />
+      <workItem from="1743973376879" duration="26000" />
     </task>
     <servers />
   </component>
