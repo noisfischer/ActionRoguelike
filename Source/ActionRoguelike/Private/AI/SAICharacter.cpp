@@ -4,6 +4,7 @@
 #include "AI/SAICharacter.h"
 
 #include "AIController.h"
+#include "BrainComponent.h"
 #include "SAttributeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/PawnSensingComponent.h"
@@ -34,8 +35,6 @@ void ASAICharacter::OnPawnSeen(APawn* Pawn)
 		UBlackboardComponent* BBComp = AIC->GetBlackboardComponent();
 
 		BBComp->SetValueAsObject("TargetActor", Pawn);
-
-		DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER SPOTTED", nullptr, FColor::White, 4.0f, true);
 	}
 }
 
@@ -43,6 +42,26 @@ void ASAICharacter::OnHealthChanged(USAttributeComponent* OwningComp, AActor* In
 {
 	if (Delta < 0.0f)
 	{
-		GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+		if (NewHealth <= 0.0f)
+		{
+			// Stop Behavior Tree
+			AAIController* AIC = Cast<AAIController>(GetController());
+			if (AIC)
+			{
+				AIC->GetBrainComponent()->StopLogic("Enemy has died");
+			}
+
+			// Ragdoll
+			GetMesh()->SetAllBodiesSimulatePhysics(true);
+			GetMesh()->SetCollisionProfileName("Ragdoll");
+
+			// Set lifespan (how long until we Destroy())
+			SetLifeSpan(10.0f);
+		}
+
+		else
+		{
+			GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+		}
 	}
 }
