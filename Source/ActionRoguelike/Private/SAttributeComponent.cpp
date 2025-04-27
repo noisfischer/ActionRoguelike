@@ -12,16 +12,36 @@ USAttributeComponent::USAttributeComponent()
 	// ...
 }
 
+USAttributeComponent* USAttributeComponent::GetAttributes(AActor* FromActor)
+{
+	if (FromActor)
+	{
+		return Cast<USAttributeComponent>(FromActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+	}
+
+	return nullptr;
+}
+
+bool USAttributeComponent::IsActorAlive(AActor* Actor)
+{
+	USAttributeComponent* AttributeComp = GetAttributes(Actor);
+	if (AttributeComp)
+	{
+		return AttributeComp->IsAlive();
+	}
+	return false;
+}
+
 bool USAttributeComponent::IsAlive() const
 {
 	return CurrentHealth > 0;
 }
 
-bool USAttributeComponent::ApplyHealthChange(float Delta)
+bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
 	CurrentHealth = FMath::Clamp(CurrentHealth + Delta, 0, MaxHealth);
 
-	OnHealthChanged.Broadcast(this, nullptr, CurrentHealth, Delta);	// for updating UI
+	OnHealthChanged.Broadcast(this, InstigatorActor, CurrentHealth, Delta);	// for updating UI
 
 	return true;
 }

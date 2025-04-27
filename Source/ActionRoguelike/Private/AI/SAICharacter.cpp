@@ -27,21 +27,29 @@ void ASAICharacter::PostInitializeComponents()
 	AttributeComp->OnHealthChanged.AddDynamic(this, &ASAICharacter::OnHealthChanged);
 }
 
-void ASAICharacter::OnPawnSeen(APawn* Pawn)
+void ASAICharacter::SetTargetActor(AActor* NewTarget)
 {
 	AAIController* AIC = Cast<AAIController>(GetController());
 	if (AIC)
 	{
-		UBlackboardComponent* BBComp = AIC->GetBlackboardComponent();
-
-		BBComp->SetValueAsObject("TargetActor", Pawn);
+		AIC->GetBlackboardComponent()->SetValueAsObject("TargetActor", NewTarget);
 	}
+}
+
+void ASAICharacter::OnPawnSeen(APawn* Pawn)
+{
+	SetTargetActor(Pawn);
 }
 
 void ASAICharacter::OnHealthChanged(USAttributeComponent* OwningComp, AActor* InstigatorActor, float NewHealth, float Delta)
 {
 	if (Delta < 0.0f)
 	{
+		if (InstigatorActor != this)
+		{
+			SetTargetActor(InstigatorActor);
+		}
+		
 		if (NewHealth <= 0.0f)
 		{
 			// Stop Behavior Tree

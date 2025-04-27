@@ -14,7 +14,7 @@ void ASHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		if (AttributeComp->GetCurrentHealth() != AttributeComp->GetMaxHealth())
 		{
 			Super::Interact_Implementation(InstigatorPawn);
-			AttributeComp->ApplyHealthChange(HealthUp);
+			AttributeComp->ApplyHealthChange(this, HealthUp);
 		}
 	}
 }

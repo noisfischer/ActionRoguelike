@@ -17,7 +17,7 @@ EBTNodeResult::Type USBTTask_Heal::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 			USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(MyPawn->GetComponentByClass(USAttributeComponent::StaticClass()));
 			if (AttributeComp)
 			{
-				AttributeComp->ApplyHealthChange(100); // Give AI max health
+				AttributeComp->ApplyHealthChange(MyPawn, 100); // Give AI max health
 				return EBTNodeResult::Succeeded;	
 			}
 		}

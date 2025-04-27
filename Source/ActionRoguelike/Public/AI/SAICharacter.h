@@ -33,6 +33,8 @@ protected:
 
 	virtual void PostInitializeComponents() override;
 
+	void SetTargetActor(AActor* NewTarget);
+
 public:
 	UFUNCTION(BlueprintCallable, Category="Attributes")
 	FORCEINLINE USAttributeComponent* GetAttributeComponent() const { return AttributeComp; };
