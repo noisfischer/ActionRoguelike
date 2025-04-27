@@ -16,7 +16,7 @@ USAttributeComponent* USAttributeComponent::GetAttributes(AActor* FromActor)
 {
 	if (FromActor)
 	{
-		return Cast<USAttributeComponent>(FromActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		return FromActor->FindComponentByClass<USAttributeComponent>();
 	}
 
 	return nullptr;
