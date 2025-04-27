@@ -31,6 +31,8 @@ ASCharacter::ASCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	bUseControllerRotationYaw = false;
+
+	TimeToHitParamName = FName("TimeToHit");
 }
 
 void ASCharacter::PostInitializeComponents()
@@ -156,7 +158,7 @@ void ASCharacter::OnHealthChanged(USAttributeComponent* OwningComp, AActor* Inst
 {
 	if (Delta < 0.0f)
 	{
-		GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParamName, GetWorld()->TimeSeconds);
 	}
 	if (NewHealth <= 0 && Delta < 0.0f)
 	{
