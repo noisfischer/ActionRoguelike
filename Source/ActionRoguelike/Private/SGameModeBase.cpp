@@ -23,6 +23,18 @@ void ASGameModeBase::StartPlay()
 	Request.Execute(EEnvQueryRunMode::AllMatching, this, &ASGameModeBase::OnBotSpawnQueryCompleted);
 }
 
+void ASGameModeBase::KillAll()
+{
+	for (TActorIterator<ASAICharacter> It(GetWorld()); It; ++It)
+	{
+		ASAICharacter* Bot = *It;
+		if (ensure(Bot->GetAttributeComponent()) && Bot->GetAttributeComponent()->IsAlive())
+		{
+			Bot->GetAttributeComponent()->Kill(this);	// pass in player for kill credit
+		}
+	}
+}
+
 void ASGameModeBase::SpawnBotTimerElapsed()
 {
 	int32 NumSpawnedBots = 0;

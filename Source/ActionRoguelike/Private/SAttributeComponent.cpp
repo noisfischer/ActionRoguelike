@@ -32,6 +32,11 @@ bool USAttributeComponent::IsActorAlive(AActor* Actor)
 	return false;
 }
 
+bool USAttributeComponent::Kill(AActor* Instigator)
+{
+	return ApplyHealthChange(Instigator, -MaxHealth);
+}
+
 bool USAttributeComponent::IsAlive() const
 {
 	return CurrentHealth > 0;
@@ -39,6 +44,11 @@ bool USAttributeComponent::IsAlive() const
 
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
+	if (!GetOwner()->CanBeDamaged())
+	{
+		return false;
+	}
+	
 	CurrentHealth = FMath::Clamp(CurrentHealth + Delta, 0, MaxHealth);
 
 	OnHealthChanged.Broadcast(this, InstigatorActor, CurrentHealth, Delta);	// for updating UI
