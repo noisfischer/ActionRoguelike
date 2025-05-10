@@ -36,9 +36,14 @@ protected:
 	void SpawnBotTimerElapsed();
 	
 	void OnBotSpawnQueryCompleted(TSharedPtr<FEnvQueryResult> Result);
+
+	UFUNCTION()
+	void RespawnPlayerElapsed(AController* Controller);
 	
 public:
 	ASGameModeBase();
+
+	virtual void OnActorKilled(AActor* VictimActor, AActor* Killer);
 	
 	virtual void StartPlay() override;
 
