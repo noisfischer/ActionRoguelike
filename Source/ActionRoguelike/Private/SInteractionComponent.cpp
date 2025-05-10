@@ -67,6 +67,12 @@ void USInteractionComponent::PrimaryInteract()
 
 	for (FHitResult Hit : Hits)
 	{
+		if (bDebugDraw)
+		{
+			FColor Color = bBlockingHit ? FColor::Green : FColor::Red;
+			DrawDebugSphere(GetWorld(), Hit.ImpactPoint, Radius, 32, Color, false, 2, 0, 1);
+		}
+		
 		AActor* HitActor = Hit.GetActor();
 		if (HitActor)
 		{
@@ -76,12 +82,6 @@ void USInteractionComponent::PrimaryInteract()
 				ISGameplayInterface::Execute_Interact(HitActor, MyPawn);
 				break;	// only allow interaction with one object at a time
 			}
-		}
-
-		if (bDebugDraw)
-		{
-			FColor Color = bBlockingHit ? FColor::Green : FColor::Red;
-			DrawDebugSphere(GetWorld(), Hit.ImpactPoint, Radius, 32, Color, false, 2, 0, 1);
 		}
 	}
 

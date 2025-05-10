@@ -9,6 +9,8 @@
 #include "SWorldUserWidget.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
 // Sets default values
@@ -19,6 +21,9 @@ ASAICharacter::ASAICharacter()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	
 	AttributeComp = CreateDefaultSubobject<USAttributeComponent>("AttributeComp");
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(true);
 
 	TimeToHitParamName = FName("TimeToHit");
 }
@@ -78,6 +83,10 @@ void ASAICharacter::OnHealthChanged(USAttributeComponent* OwningComp, AActor* In
 			// Ragdoll
 			GetMesh()->SetAllBodiesSimulatePhysics(true);
 			GetMesh()->SetCollisionProfileName("Ragdoll");
+
+			// Remove collisions and disallow movement
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			GetCharacterMovement()->DisableMovement();
 
 			// Set lifespan (how long until we Destroy())
 			SetLifeSpan(10.0f);

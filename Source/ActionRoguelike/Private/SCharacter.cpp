@@ -43,6 +43,12 @@ void ASCharacter::PostInitializeComponents()
 	
 }
 
+FVector ASCharacter::GetPawnViewLocation() const
+{
+	return CameraComp->GetComponentLocation();
+	
+}
+
 
 // Called when the game starts or when spawned
 void ASCharacter::BeginPlay()

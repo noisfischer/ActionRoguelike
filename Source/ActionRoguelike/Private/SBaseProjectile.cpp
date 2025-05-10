@@ -4,6 +4,7 @@
 #include "SBaseProjectile.h"
 
 #include "SAttributeComponent.h"
+#include "SGameplayFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -66,13 +67,17 @@ void ASBaseProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherAct
 {
 	if (OtherActor && OtherActor!= GetInstigator())
 	{
-		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		/*USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (AttributeComp)
 		{
 			AttributeComp->ApplyHealthChange(GetInstigator(), -20.0f);
 		}
 		EffectComp->SetVisibility(false);
+		Explode();*/
+
+		USGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, DamageAmount, Hit);
 		Explode();
+	
 	}
 }
 

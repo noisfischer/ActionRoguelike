@@ -80,6 +80,8 @@ protected:
 	void OnHealthChanged( USAttributeComponent* OwningComp, AActor* InstigatorActor, float NewHealth, float Delta);
 
 	virtual void PostInitializeComponents() override;
+
+	virtual FVector GetPawnViewLocation() const override;
 	
 public:	
 	// Called every frame

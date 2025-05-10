@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a15679cb-cb89-4ad1-8a18-18ca22f75236" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ActionRoguelike.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/ActionRoguelike.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ActionRoguelike/Private/SInteractionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ActionRoguelike/Private/SInteractionComponent.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +84,7 @@
       <workItem from="1743715293324" duration="55000" />
       <workItem from="1743973376879" duration="26000" />
       <workItem from="1746370129949" duration="6000" />
+      <workItem from="1746890276438" duration="7000" />
     </task>
     <servers />
   </component>

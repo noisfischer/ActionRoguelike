@@ -44,6 +44,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
 	TSubclassOf<class UCameraShakeBase> CameraShake;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Properties")
+	float DamageAmount = 20.0f;
 	
 	UFUNCTION()
 	virtual void OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
