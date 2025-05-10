@@ -5,6 +5,11 @@
 
 #include "SGameModeBase.h"
 
+
+// Console command that isn't included in final build
+static TAutoConsoleVariable<float> CVarDamageMultiplier(TEXT("su.DamageMultiplier"), 1.0f, TEXT("Global damage modifier for attribute component"), ECVF_Cheat);
+
+
 // Sets default values for this component's properties
 USAttributeComponent::USAttributeComponent()
 {
@@ -50,13 +55,21 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delt
 	{
 		return false;
 	}
-	
+
+	if (Delta )
+	{
+		float DamageMultiplier = CVarDamageMultiplier.GetValueOnGameThread();
+		Delta *= DamageMultiplier;
+	}
+
+	float OldHealth = CurrentHealth;
 	CurrentHealth = FMath::Clamp(CurrentHealth + Delta, 0, MaxHealth);
 
-	OnHealthChanged.Broadcast(this, InstigatorActor, CurrentHealth, Delta);	// for updating UI
+	float ActualDelta = CurrentHealth - OldHealth;
+	OnHealthChanged.Broadcast(this, InstigatorActor, CurrentHealth, ActualDelta);	// for updating UI
 
 	// Dead
-	if (Delta < 0.0f && CurrentHealth == 0.0f)
+	if (ActualDelta < 0.0f && CurrentHealth == 0.0f)
 	{
 		ASGameModeBase* GM = GetWorld()->GetAuthGameMode<ASGameModeBase>();
 		if (GM)
@@ -65,5 +78,5 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delt
 		}
 	}
 
-	return Delta != 0;
+	return ActualDelta != 0;
 }

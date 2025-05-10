@@ -5,6 +5,9 @@
 
 #include "SGameplayInterface.h"
 
+static TAutoConsoleVariable<bool> CVarDebugDrawInteraction(TEXT("su.InteractionDebugDraw"), false, TEXT("Toggle debug lines for interaction comp"), ECVF_Cheat);
+
+
 // Sets default values for this component's properties
 USInteractionComponent::USInteractionComponent()
 {
@@ -36,6 +39,9 @@ void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void USInteractionComponent::PrimaryInteract()
 {
+
+	bool bDebugDraw = CVarDebugDrawInteraction.GetValueOnGameThread();
+	
 	// FHitResult Hit;
 	
 	FCollisionObjectQueryParams ObjectQueryParams;
@@ -71,12 +77,19 @@ void USInteractionComponent::PrimaryInteract()
 				break;	// only allow interaction with one object at a time
 			}
 		}
-		FColor Color = bBlockingHit ? FColor::Green : FColor::Red;
-		DrawDebugSphere(GetWorld(), Hit.ImpactPoint, Radius, 32, Color, false, 2, 0, 1);
+
+		if (bDebugDraw)
+		{
+			FColor Color = bBlockingHit ? FColor::Green : FColor::Red;
+			DrawDebugSphere(GetWorld(), Hit.ImpactPoint, Radius, 32, Color, false, 2, 0, 1);
+		}
 	}
-	
-	FColor LineColor = bBlockingHit ? FColor::Green : FColor::Red;
-	DrawDebugLine(GetWorld(), EyeLocation, End, LineColor, false, 5, 0, 1);
+
+	if (bDebugDraw)
+	{
+		FColor LineColor = bBlockingHit ? FColor::Green : FColor::Red;
+		DrawDebugLine(GetWorld(), EyeLocation, End, LineColor, false, 5, 0, 1);
+	}
 }
 
 
