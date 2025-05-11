@@ -35,6 +35,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	USAttributeComponent* AttributeComp;
 	
+	
 	UFUNCTION()
 	void OnHealthChanged( USAttributeComponent* OwningComp, AActor* InstigatorActor, float NewHealth, float Delta);
 
@@ -49,4 +50,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Attributes")
 	FORCEINLINE USAttributeComponent* GetAttributeComponent() const { return AttributeComp; };
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Credits")
+	float CreditValue = 20.0f;
 };

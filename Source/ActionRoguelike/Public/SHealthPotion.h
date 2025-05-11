@@ -6,6 +6,7 @@
 #include "SPickup.h"
 #include "SHealthPotion.generated.h"
 
+
 /**
  * 
  */
@@ -13,6 +14,9 @@ UCLASS()
 class ACTIONROGUELIKE_API ASHealthPotion : public ASPickup
 {
 	GENERATED_BODY()
+
+public:
+	ASHealthPotion();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Health")

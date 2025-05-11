@@ -20,6 +20,9 @@ public:
 	
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Credits")
+	float CreditCost = 0.0f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

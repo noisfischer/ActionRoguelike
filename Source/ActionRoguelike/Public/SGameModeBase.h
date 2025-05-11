@@ -9,6 +9,7 @@
 struct FEnvQueryResult;
 class UEnvQuery;
 class UCurveFloat;
+class ASPlayerState;
 /**
  * 
  */
