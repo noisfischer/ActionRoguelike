@@ -9,7 +9,7 @@
 
 ASHealthPotion::ASHealthPotion()
 {
-	CreditCost = 20.0f;
+	CreditValue = 20.0f;
 }
 
 void ASHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
@@ -20,13 +20,13 @@ void ASHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 
 	if (AttributeComp && PlayerState)
 	{
-		if (PlayerState->GetCredits() >= CreditCost)
+		if (PlayerState->GetCredits() >= CreditValue)
 		{
 			if (AttributeComp->GetCurrentHealth() != AttributeComp->GetMaxHealth())
 			{
 				Super::Interact_Implementation(InstigatorPawn);
 				AttributeComp->ApplyHealthChange(this, HealthUp);
-				PlayerState->SetCredits(-CreditCost);
+				PlayerState->SetCredits(-CreditValue);
 			}
 		}
 	}
