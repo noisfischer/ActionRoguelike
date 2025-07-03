@@ -9,34 +9,13 @@
 class USInteractionComponent;
 class UCameraComponent;
 class USpringArmComponent;
-class UAnimMontage;
 class USAttributeComponent;
-class UParticleSystem;
+class USActionComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
-protected:
-	UPROPERTY(EditAnywhere, Category="Attack")
-	TSubclassOf<AActor> PrimaryProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category="Attack")
-	TSubclassOf<AActor> SecondaryProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category="Attack")
-	TSubclassOf<AActor> SpellProjectileClass;
-	
-	UPROPERTY(EditAnywhere, Category="Attack")
-	UAnimMontage* AttackAnim;
-
-	UPROPERTY(EditAnywhere, Category="Attack")
-	UParticleSystem* SpellCastVFX;
-	
-	void SpawnProjectile(TSubclassOf<AActor> Projectile);
-	
-	FTimerHandle TimerHandle_Attack;
 	
 public:
 	// Sets default values for this character's properties
@@ -58,12 +37,18 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	USAttributeComponent* AttributeComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	USActionComponent* ActionComp;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+
+	void SprintStart();
+	void SprintStop();
 	
 	
 	void PrimaryAttack();
@@ -71,10 +56,6 @@ protected:
 	void CastSpell();
 
 	void PrimaryInteract();
-
-	void PrimaryAttack_TimeElapsed();
-	void SecondaryAttack_TimeElapsed();
-	void CastSpell_TimeElapsed();
 
 	UFUNCTION()
 	void OnHealthChanged( USAttributeComponent* OwningComp, AActor* InstigatorActor, float NewHealth, float Delta);
@@ -84,10 +65,8 @@ protected:
 	virtual FVector GetPawnViewLocation() const override;
 	
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
+	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(Exec)	// turns the function into a console command (developer cheat)

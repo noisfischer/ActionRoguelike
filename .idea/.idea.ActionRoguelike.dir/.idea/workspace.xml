@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a15679cb-cb89-4ad1-8a18-18ca22f75236" name="Changes" comment="" />
+    <list default="true" id="a15679cb-cb89-4ad1-8a18-18ca22f75236" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ActionRoguelike.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ActionRoguelike.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ActionRoguelike.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/ActionRoguelike.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ActionRoguelike/Blueprints/PlayerCharacter/BP_PlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ActionRoguelike/Blueprints/PlayerCharacter/BP_PlayerCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ActionRoguelike/Private/SCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ActionRoguelike/Private/SCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ActionRoguelike/Public/SCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ActionRoguelike/Public/SCharacter.h" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,6 +92,9 @@
       <workItem from="1746890276438" duration="7000" />
       <workItem from="1746989228208" duration="7000" />
       <workItem from="1747591186042" duration="8000" />
+      <workItem from="1751569764806" duration="10000" />
+      <workItem from="1751569796309" duration="7000" />
+      <workItem from="1751572452356" duration="16000" />
     </task>
     <servers />
   </component>
