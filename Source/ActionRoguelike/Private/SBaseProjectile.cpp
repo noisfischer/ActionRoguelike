@@ -3,7 +3,7 @@
 
 #include "SBaseProjectile.h"
 
-#include "SAttributeComponent.h"
+#include "SActionComponent.h"
 #include "SGameplayFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
@@ -19,7 +19,7 @@ ASBaseProjectile::ASBaseProjectile()
 
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionProfileName("Projectile");
-	SphereComp->OnComponentHit.AddDynamic(this, &ASBaseProjectile::OnHit);
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASBaseProjectile::OnActorOverlap);
 	RootComponent = SphereComp;
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
@@ -62,22 +62,29 @@ void ASBaseProjectile::Explode_Implementation()
 	}
 }
 
-void ASBaseProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor,
-	class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void ASBaseProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	if (OtherActor && OtherActor!= GetInstigator())
 	{
-		/*USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
-		if (AttributeComp)
+		USActionComponent* ActionComp = Cast<USActionComponent>(OtherActor->GetComponentByClass(USActionComponent::StaticClass()));
+		if (ActionComp && ActionComp->ActiveGameplayTags.HasTag(ParryTag))
 		{
-			AttributeComp->ApplyHealthChange(GetInstigator(), -20.0f);
+			MovementComp->Velocity = -MovementComp->Velocity; // invert velocity to send back to its origin
+
+			SetInstigator(Cast<APawn>(OtherActor)); // So that the instigator can get hit by parried projectile
+			return;
 		}
-		EffectComp->SetVisibility(false);
-		Explode();*/
 
 		USGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, DamageAmount, Hit);
 		Explode();
-	
+
+		return;
+	}
+
+	if (OtherComp && OtherComp->GetOwner() != GetInstigator())
+	{
+		Explode();
 	}
 }
 

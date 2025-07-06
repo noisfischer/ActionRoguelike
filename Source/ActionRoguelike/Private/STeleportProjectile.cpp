@@ -23,17 +23,6 @@ void ASTeleportProjectile::BeginPlay()
 }
 
 
-void ASTeleportProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor,
-                                 class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-	Super::OnHit(MyComp, OtherActor, OtherComp, NormalImpulse, Hit);
-
-	if (OtherActor != GetInstigator())
-	{
-		GetWorldTimerManager().SetTimer(TeleportTimer, this, &ASTeleportProjectile::Teleport, 0.2f);
-	}
-}
-
 void ASTeleportProjectile::Explode_Implementation()
 {
 	// Super::Explode_Implementation();
@@ -57,6 +46,17 @@ void ASTeleportProjectile::Teleport()
 	if (ensure(Player))
 	{
 		Player->SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, 0));
+	}
+}
+
+void ASTeleportProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
+{
+	Super::OnActorOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, Hit);
+
+	if (OtherActor != GetInstigator())
+	{
+		GetWorldTimerManager().SetTimer(TeleportTimer, this, &ASTeleportProjectile::Teleport, 0.2f);
 	}
 }
 

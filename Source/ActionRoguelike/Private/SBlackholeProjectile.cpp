@@ -51,11 +51,12 @@ void ASBlackholeProjectile::BlackholeDuration_TimeElapsed()
 	Destroy();
 }
 
-void ASBlackholeProjectile::OnHit(class UPrimitiveComponent* MyComp, AActor* OtherActor,
-	class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void ASBlackholeProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	
+	Super::OnActorOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, Hit);
 }
+
 
 void ASBlackholeProjectile::Tick(float DeltaTime)
 {
