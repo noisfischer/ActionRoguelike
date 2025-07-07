@@ -6,6 +6,12 @@
 #include "GameFramework/GameModeBase.h"
 #include "SGameModeBase.generated.h"
 
+namespace EEnvQueryStatus
+{
+	enum Type : int;
+}
+
+class UEnvQueryInstanceBlueprintWrapper;
 struct FEnvQueryResult;
 class UEnvQuery;
 class UCurveFloat;
@@ -21,6 +27,18 @@ class ACTIONROGUELIKE_API ASGameModeBase : public AGameModeBase
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	UEnvQuery* SpawnBotQuery;
+
+	UPROPERTY(EditDefaultsOnly, Category="Powerups")
+	UEnvQuery* PowerupSpawnQuery;
+
+	UPROPERTY(EditDefaultsOnly, Category="Powerups")
+	TArray<TSubclassOf<AActor>> PowerupClasses;
+
+	UPROPERTY(EditDefaultsOnly, Category="Powerups")
+	int32 DesiredPowerupCount;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Powerups")
+	float RequiredPowerupDistance;
 
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	TSubclassOf<AActor> MinionClass;
@@ -38,6 +56,9 @@ protected:
 	
 	void OnBotSpawnQueryCompleted(TSharedPtr<FEnvQueryResult> Result);
 
+	UFUNCTION()
+	void OnPowerupSpawnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+	
 	UFUNCTION()
 	void RespawnPlayerElapsed(AController* Controller);
 	

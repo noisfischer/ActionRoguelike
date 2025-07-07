@@ -17,7 +17,7 @@ class ACTIONROGUELIKE_API ASPlayerState : public APlayerState
 
 public:
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Credits")
 	void SetCredits(float Delta);
 
 protected:
